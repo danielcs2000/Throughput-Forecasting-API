@@ -1,0 +1,1 @@
+{"link_number": "1", "interval_size": 1, "bms": [{"name": "FFT", "n_processes": 64, "n_hosts": 64}, {"name": "HPL", "n_processes": 64, "n_hosts": 64}, {"name": "EP", "n_processes": 64, "n_hosts": 64}]}
