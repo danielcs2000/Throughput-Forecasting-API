@@ -2,6 +2,7 @@ import numpy as np
 from numpy.typing import NDArray
 from flask import Flask, request, jsonify
 from tensorflow.keras.models import load_model
+import pdb
 
 
 app = Flask(__name__)
@@ -16,10 +17,11 @@ def predict_with_model(time_series_data: NDArray, output_len: int = 1):
     """
     data_mean = time_series_data.mean()
     data_std = time_series_data.std()
-
+  
     normalized_data = (time_series_data - data_mean) / data_std
+    input_data = np.reshape(normalized_data, (1, 20, 1))
 
-    predicted_data = model.predict([[normalized_data]])
+    predicted_data = model.predict(input_data)
     denormalized_data = predicted_data.flatten()*data_std + data_mean
     
     return denormalized_data
@@ -38,10 +40,10 @@ def predict():
 
     output_len = 1
     predicted_values = predict_with_model(np.array(time_series_data), output_len=output_len)
-
+    #pdb.set_trace()
     response = {
         "output_len": output_len,
-        "prediction": predicted_values
+        "prediction": predicted_values.tolist()
     }
     return jsonify(response)
 
