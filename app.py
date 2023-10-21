@@ -40,6 +40,7 @@ def predict_multistep(time_series_data: NDArray, output_len: int = 1):
         # the predicted value is used for the next prediction
         input_data = input_data[1:]
         input_data = np.append(input_data, output_val)
+    return np.array(result)
 
 
 @app.route("/predict", methods=["POST"])
@@ -55,11 +56,12 @@ def predict():
 
     output_len = content.get("output_len", 1)
     predicted_values = predict_multistep(np.array(time_series_data), output_len=output_len)
-    #pdb.set_trace()
+    # pdb.set_trace()
     response = {
         "output_len": output_len,
         "prediction": predicted_values.tolist()
     }
+    #pdb.set_trace()
     return jsonify(response)
 
 
